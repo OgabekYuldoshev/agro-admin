@@ -1,45 +1,48 @@
 
 // import { lazy } from 'react'
-import {
-    BrowserRouter as AppRouter,
-    Routes,
-    Route
-} from "react-router-dom"
+import { BrowserRouter as AppRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { isUserLoggedIn } from '@utils'
 import RoutesList from './routes'
 import DefaultLayout from '@src/layout'
 
 const RouterApp = () => {
+    const FinalRoute = props => {
+        const route = props.route
 
-    // const NotAuthorized = lazy(() => import('@src/views/NotAuthorized'))
-    // const Error = lazy(() => import('@src/views/Error'))
+        if (
+            (!isUserLoggedIn() && route.meta === undefined) ||
+            (!isUserLoggedIn() && route.meta && !route.meta.authRoute && !route.meta.publicRoute)
+        ) {
+            return <Redirect to='/login' />
+        } else if (route.meta && route.meta.authRoute && isUserLoggedIn()) {
+            return <Redirect to='/' />
+        } else {
+            if (route.meta && !route.meta.layout) {
+                return <route.component {...props} />
+            }
+            return (
+                <DefaultLayout>
+                    <route.component {...props} />
+                </DefaultLayout>
+            )
+        }
+    }
+
     return (
         <AppRouter basename={process.env.REACT_APP_BASENAME}>
-            <Routes>
-                {/* <Route
-                    exact
-                    path='/misc/not-authorized'
-                    render={() => (
-                        <DefaultLayout>
-                            <NotAuthorized />
-                        </DefaultLayout>
-                    )}
-                /> */}
-                {RoutesList?.map(route => (
-                    <Route
-                        key={route.path}
-                        path={route.path}
-                        exact={route.exact === true}
-                        element={(
-                            <DefaultLayout>
-                                <route.component />
-                            </DefaultLayout>
-                        )
-                        }
-                    />
-                )
-                )}
+            <Switch>
+                {RoutesList.map(route => {
+                    return (
+                        <Route
+                            key={route.path}
+                            path={route.path}
+                            exact={route.exact === true}
+                            render={props => <FinalRoute route={route} {...props} />}
+                        />
+                    )
+                })}
                 {/* <Route path='*' component={Error} /> */}
-            </Routes>
+            </Switch>
         </AppRouter>
     )
 }

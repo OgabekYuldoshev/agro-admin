@@ -10,6 +10,15 @@ const routes = [
         path: '/products',
         component: lazy(() => import('../../pages/products')),
         exact: true
+    },
+    {
+        path: '/login',
+        component: lazy(() => import('../../pages/login')),
+        exact: true,
+        meta: {
+            layout: false,
+            authRoute: true
+        }
     }
 ]
 
