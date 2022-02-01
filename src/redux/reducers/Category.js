@@ -21,6 +21,21 @@ export const updateCategory = createAsyncThunk('app/updateCategory', async ({ id
     return response.data
 })
 
+export const createSubCategory = createAsyncThunk('app/createSubCategory', async (data) => {
+    const response = await http.post('/admin/sub_categories', data)
+    return response.data
+})
+
+export const deleteSubCategory = createAsyncThunk('app/deleteSubCategory', async ({ id }) => {
+    await http.delete(`/admin/sub_categories/${id}`)
+})
+
+export const updateSubCategory = createAsyncThunk('app/updateSubCategory', async ({ id, value }) => {
+    await http.put(`/admin/sub_categories/${id}`, value)
+    return response.data
+})
+
+
 export const categorySlice = createSlice({
     name: 'category',
     initialState: {
