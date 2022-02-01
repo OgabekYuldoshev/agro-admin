@@ -7,6 +7,11 @@ const routes = [
         exact: true
     },
     {
+        path: '/category',
+        component: lazy(() => import('../../pages/category')),
+        exact: true
+    },
+    {
         path: '/products',
         component: lazy(() => import('../../pages/products')),
         exact: true

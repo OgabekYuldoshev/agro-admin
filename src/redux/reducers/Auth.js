@@ -35,9 +35,9 @@ export const authSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.userData = action?.payload
-        state.accessToken = action?.payload?.accessToken
+        state.accessToken = action?.payload?.access_token
         localStorage.setItem('userData', JSON.stringify(action.payload))
-        localStorage.setItem('accessToken', JSON.stringify(action.payload.accessToken))
+        localStorage.setItem('accessToken', JSON.stringify(action.payload.access_token))
       })
   }
 })

@@ -1,95 +1,121 @@
-import { Table, Modal, Button, Input, Menu, Dropdown } from 'antd'
-// import { useState } from 'react'
-// import { useHistory, useLocation } from "react-router-dom"
-import {
-    DeleteOutlined
-} from '@ant-design/icons'
+import { Upload, message, Form, Input, InputNumber, Row, Col, Select, Button } from 'antd'
+import { InboxOutlined } from '@ant-design/icons'
 
-const data = [
-    {
-        key: 1,
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.'
-    },
-    {
-        key: 2,
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.'
-    },
-    {
-        key: 3,
-        name: 'Not Expandable',
-        age: 29,
-        address: 'Jiangsu No. 1 Lake Park'
-
-    },
-    {
-        key: 4,
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.'
-    }
-]
+const { Dragger } = Upload
+const { Option } = Select
 
 const ProductsPage = () => {
 
-    const columns = [
-        { title: 'Name', dataIndex: 'name', key: 'name' },
-        { title: 'Address', dataIndex: 'address', key: 'address' },
-        {
-            title: 'Action',
-            dataIndex: '',
-            key: 'x',
-            render: () => (
-                <div>
-                    <Button type="danger">
-                        O'chirish
-                    </Button>
-                </div>
-            )
+    const props = {
+        name: 'file',
+        multiple: true,
+        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        onChange(info) {
+            const { status } = info.file
+            if (status !== 'uploading') {
+                console.log(info.file, info.fileList)
+            }
+            if (status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully.`)
+            } else if (status === 'error') {
+                message.error(`${info.file.name} file upload failed.`)
+            }
+        },
+        onDrop(e) {
+            console.log('Dropped files', e.dataTransfer.files)
         }
-    ]
+    }
 
+    const onFinish = (values) => {
+        alert(JSON.stringify(values))
+    }
+
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo)
+    }
     return (
         <>
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold ">Categoryalar yaratish</h1>
-                <div className='flex gap-1'>
-                    <Input placeholder="Kategorya nomini kiriting..." />
-                    <Button >Qo'shish</Button>
+            <h1 className="text-2xl font-bold mb-4">Mahsulot yaratish</h1>
+            <Form
+                name="basic"
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
+                layout="vertical"
+                className='flex gap-2'>
+                <div>
+                    <Dragger {...props} className='w-1/2 p-5'>
+                        <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                        </p>
+                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                        <p className="ant-upload-hint">
+                            Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+                            band files
+                        </p>
+                    </Dragger>
                 </div>
-            </div>
-            <Table
-                columns={columns}
-                expandable={{
-                    expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
-                    rowExpandable: record => record.description
-                }}
-                dataSource={data}
-            />
-            {/* <ModalComponents isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} /> */}
+                <Row gutter={[10, 10]} className='w-1/2'>
+                    <Col span='12'>
+                        <Form.Item
+                            label="Nomi"
+                            name="name"
+                            rules={[{ required: true, message: 'Please input your name!' }]}
+                        >
+                            <Input placeholder='Nomini kiriting....' />
+                        </Form.Item>
+                    </Col>
+                    <Col span='12'>
+                        <Form.Item
+                            label="Narxi"
+                            name="price"
+                            rules={[{ required: true, message: 'Please input your price!' }]}
+                        >
+                            <InputNumber className='w-full' placeholder='Narx kiriting....' />
+                        </Form.Item>
+                    </Col>
+                    <Col span='12'>
+                        <Form.Item
+                            label="Kategoryasi"
+                            name="category"
+                            rules={[{ required: true, message: 'Please input your category!' }]}
+                        >
+                            <Select placeholder='Tanlang....'>
+                                <Option value="male">Helo</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span='12'>
+                        <Form.Item
+                            label="Sub Kategoryasi"
+                            name="sub_category"
+                            rules={[{ required: true, message: 'Please input your Subcategory!' }]}
+                        >
+                            <Select placeholder='Tanlang....'>
+                                <Option value="male">Helo</Option>
+                            </Select>
+                        </Form.Item>
+                    </Col>
+                    <Col span='12'>
+                        <Form.Item
+                            label="Partner"
+                            name="partner"
+                            rules={[{ required: true, message: 'Please input your Subcategory!' }]}
+                        >
+                            <Select placeholder='Tanlang....'>
+                                <Option value="male">Helo</Option>
+                            </Select>
+                        </Form.Item>
+                        <Form.Item>
+                            <Button htmlType="submit">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Form>
         </>
     )
 }
 
-// const ModalComponents = ({ isModalVisible, handleOk, handleCancel }) => {
-//     const footer = [
-//         <Button key="back" type="success" onClick={handleCancel}>
-//             Bekor Qilish
-//         </Button>,
-//         <Button key="submit" type="secondary" onClick={handleOk}>
-//             Saqlash
-//         </Button>
-//     ]
-//     return (
-//         <Modal title="Categorya yaratish" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={footer}>
-//             <Input placeholder="Kategorya nomini kiriting..." />
-//         </Modal>
-//     )
-// }
 export default ProductsPage

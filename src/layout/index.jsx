@@ -3,24 +3,27 @@ import {
     UserOutlined,
     LogoutOutlined
 } from '@ant-design/icons'
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 const { Header, Content, Footer, Sider } = Layout
 import "./style.css"
 import menu from '../navigation'
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { handleLogout } from "@store/reducers/Auth"
-
 
 const DeafultLayout = (props) => {
     const dispatch = useDispatch()
+    const history = useHistory()
+    const store = useSelector(state => state.auth)
+
+    const LogOut = () => {
+        dispatch(handleLogout())
+        history.push('/login')
+    }
 
     const MenuList = (
         <Menu>
-            <Menu.Item key="0">
-                <a href="https://www.antgroup.com">1st menu item</a>
-            </Menu.Item>
             <Menu.Divider />
-            <Menu.Item onClick={() => dispatch(handleLogout())} key="3">
+            <Menu.Item onClick={LogOut} key="3">
                 <span className='text-red-500 flex items-center gap-1'>
                     <LogoutOutlined />
                     LogOut
@@ -57,20 +60,20 @@ const DeafultLayout = (props) => {
                     }
                 </Menu>
             </Sider>
-            <Layout className="bg-gray-100 h-screen" style={{ marginLeft: 200 }}>
+            <Layout className="bg-gray-100 min-h-screen" style={{ marginLeft: 200 }}>
                 <Header className="bg-white px-5 flex items-center justify-between" >
                     Ogabek
                     <Dropdown overlay={MenuList} trigger={['click']}>
                         <div className='cursor-pointer flex items-center gap-1'>
-                            <span>Admin</span>
-                            <Avatar icon={<UserOutlined />} />
+                            <span>{store?.userData?.user?.username}</span>
+                            <div className="flex items-center justify-center rounded-full bg-gray-300 w-10 h-10">
+                                <UserOutlined className="text-xl" />
+                            </div>
                         </div>
                     </Dropdown>
                 </Header>
-                <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-                    <div className="bg-white" style={{ padding: 24 }}>
-                        {props.children}
-                    </div>
+                <Content className='px-12 py-10 bg-white m-5'>
+                    {props.children}
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>CopyRight ©2022 Created by <a className='text-blue-800' href='https://yuldoshev.vercel.app/'>Ogabek Yuldoshev</a></Footer>
             </Layout>

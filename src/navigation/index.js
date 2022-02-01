@@ -4,7 +4,11 @@ const menu = [
         link: '/'
     },
     {
-        name: 'Products',
+        name: 'Kategoryalar',
+        link: '/category'
+    },
+    {
+        name: 'Mahsulotlar',
         link: '/products'
     }
 ]

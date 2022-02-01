@@ -1,11 +1,13 @@
 import { Form, Input, Button } from 'antd'
 import { login } from "@store/reducers/Auth"
 import { useDispatch } from "react-redux"
+import { useHistory } from 'react-router-dom'
 
 export default () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const onFinish = (values) => {
-        dispatch(login(values))
+        dispatch(login(values)).then(() => history.push('/'))
     }
 
     const onFinishFailed = (errorInfo) => {
