@@ -1,6 +1,6 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { http } from "@src/services"
+import { http } from "@utils"
 
 export const getCategory = createAsyncThunk('app/getCategory', async () => {
     const response = await http.get('/admin/categories')

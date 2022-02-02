@@ -65,7 +65,7 @@ const DeafultLayout = (props) => {
                     Ogabek
                     <Dropdown overlay={MenuList} trigger={['click']}>
                         <div className='cursor-pointer flex items-center gap-1'>
-                            <span>{store?.userData?.user?.username}</span>
+                            <span>{store?.userData?.username}</span>
                             <div className="flex items-center justify-center rounded-full bg-gray-300 w-10 h-10">
                                 <UserOutlined className="text-xl" />
                             </div>
