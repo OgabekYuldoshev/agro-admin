@@ -1,40 +1,34 @@
 import { Table, Popconfirm, Button, Input, Tooltip, Modal, message, Form } from 'antd'
 import { useState, useEffect } from 'react'
-import { getCategory, deleteCategory, createCategory, updateCategory } from "@store/reducers/Category"
+import { getPartner, deletePartner, createPartner, updatePartner } from "@store/reducers/Partners"
 // import { useHistory, useLocation } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import {
     EditOutlined,
-    OrderedListOutlined,
-    PlusSquareOutlined,
     DeleteOutlined
 } from '@ant-design/icons'
-import AddSubCategory from './AddSubCategory'
+import AddPartner from './AddPartner'
 
 
-const ProductsPage = () => {
+const PartnerPage = () => {
     const dispatch = useDispatch()
-    const store = useSelector(state => state.category)
-
+    const store = useSelector(state => state.partner)
+    const [open, setOpen] = useState(false)
+    const toggle = () => setOpen(val => !val)
     useEffect(() => {
-        dispatch(getCategory())
+        dispatch(getPartner())
     }, [])
-
-    console.log(store.categories)
-
     const columns = [
         {
             title: 'Name',
-            dataIndex: '',
-            key: '',
-            width: '800px',
-            render: row => <EditableComponent item={row} />
+            dataIndex: 'name',
+            key: 'name',
+            width: '500px'
         },
         {
-            title: 'Status',
-            dataIndex: '',
-            key: '',
-            render: row => <span>{row?.is_active}</span>
+            title: 'Link',
+            dataIndex: 'link',
+            key: 'link'
         },
         {
             title: 'Status',
@@ -51,70 +45,47 @@ const ProductsPage = () => {
         }
     ]
 
-    const handleCreate = (value) => {
-        dispatch(createCategory(value)).then(() => message.success("Kategorya yaratildi!"))
+    const handleCreate = (values) => {
+        // console.log(value)
+        const formData = new FormData()
+        for (const name in values) {
+            formData.append(name, values[name])
+        }
+        dispatch(createPartner(formData)).then(() => toggle())
     }
 
     return (
         <>
             <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold ">Categoryalar yaratish</h1>
-
-                <Form name="basic" className='flex gap-2' onFinish={handleCreate}>
-                    <Form.Item
-                        name="name"
-                        rules={[{ required: true, message: 'Please input your name!' }]}>
-                        <Input placeholder='Kategorya nomini kiriting....' />
-                    </Form.Item>
-                    <Form.Item>
-                        <Button htmlType="submit">
-                            Yaratish
-                        </Button>
-                    </Form.Item>
-                </Form>
+                <h1 className="text-2xl font-bold ">Partnerlarni Qo'shish</h1>
+                <Button onClick={toggle}>
+                    Partner Qo'shish
+                </Button>
+                <AddPartner createPartner={handleCreate} onClose={toggle} open={open} />
             </div>
             <Table
                 columns={columns}
-                // expandable={{
-                //     expandedRowRender: () => <p style={{ margin: 0 }}>hello</p>,
-                //     rowExpandable: record => record.sub_categories
-                // }}
-                dataSource={store.categories}
+                dataSource={store.partners}
             />
-            {/* <ModalComponents isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} /> */}
         </>
     )
 }
 
 const ActionComponent = ({ item }) => {
     const dispatch = useDispatch()
-    const [isModalVisible, setIsModalVisible] = useState(false)
-
-    const showModal = () => {
-        setIsModalVisible(!isModalVisible)
-    }
 
     const handleDelete = () => {
-        dispatch(deleteCategory({ id: item.id })).then(() => {
-            message.success('Kategorya o\'chirildi')
-        })
+        dispatch(deletePartner(item.id))
     }
 
-    function cancel(e) {
-        console.log(e)
-        message.error('Click on No')
+    function cancel() {
+        message.error("O'chirish bekor qilindi")
     }
 
     return (
         <div className='flex gap-2'>
-            <Tooltip title="Sub kategorya qo'shish!">
-                <a>
-                    <PlusSquareOutlined onClick={showModal} className='text-xl' />
-                </a>
-            </Tooltip>
-
             <Popconfirm
-                title="Agar kategoryani o'chirsangiz unga tegilshli sub kategoryalar ham o'chadi!"
+                title="Rostdan ham o'chirishni istaysizmi?"
                 onConfirm={handleDelete}
                 onCancel={cancel}
                 okText="Xa, o'chirish"
@@ -124,7 +95,6 @@ const ActionComponent = ({ item }) => {
                     <DeleteOutlined className='text-xl text-red-500' />
                 </a>
             </Popconfirm>
-            <AddSubCategory open={isModalVisible} onClose={showModal} item={item} />
         </div>
     )
 }
@@ -133,7 +103,7 @@ const EditableComponent = ({ item }) => {
     const dispatch = useDispatch()
     const [edit, setEdit] = useState(false)
     const handleUpdate = (val) => {
-        dispatch(updateCategory({ id: item?.id, value: { ...val, is_active: true } })).then(() => setEdit(false))
+        dispatch(updatePartner({ id: item?.id, value: { ...val, is_active: false } })).then(() => setEdit(false))
 
     }
     return (
@@ -169,4 +139,4 @@ const EditableComponent = ({ item }) => {
     )
 }
 
-export default ProductsPage
+export default PartnerPage

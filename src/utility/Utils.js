@@ -2,11 +2,7 @@
 import axios from "axios"
 
 export const http = axios.create({
-  baseURL: 'https://guarded-cliffs-29944.herokuapp.com/api',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json; charset=utf-8'
-  }
+  baseURL: 'https://guarded-cliffs-29944.herokuapp.com/api'
 })
 
 // ** Checks if an object is empty (returns boolean)

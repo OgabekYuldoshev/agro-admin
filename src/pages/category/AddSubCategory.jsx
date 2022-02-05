@@ -21,6 +21,12 @@ const AddSubCategory = ({ open, onClose, item }) => {
             render: row => <EditableComponent parentID={item?.id} item={row} />
         },
         {
+            title: 'Status',
+            dataIndex: '',
+            key: '',
+            render: (row) => <span className={`px-2 rounded ${row?.is_active ? "bg-green-500" : 'bg-red-500'} text-white`}>{row?.is_active ? "Active" : 'Unactive'}</span>
+        },
+        {
             title: 'Action',
             dataIndex: '',
             width: '100px',
