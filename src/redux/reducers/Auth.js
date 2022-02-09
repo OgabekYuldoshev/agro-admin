@@ -33,6 +33,7 @@ export const authSlice = createSlice({
   initialState: {
     userData: {},
     isAuth: false,
+    isLoading: false,
     accessToken: localStorage.getItem('Qaccess_Token')
   },
   reducers: {
@@ -56,10 +57,15 @@ export const authSlice = createSlice({
   extraReducers: {
     [login.fulfilled]: (state, action) => {
       state.accessToken = action?.payload?.access_token
+      state.isLoading = false
       localStorage.setItem('Qaccess_Token', action.payload.access_token)
       message.success("Tizimga muvofaqiyatli kirdingiz!")
     },
-    [login.rejected]: () => {
+    [login.pending]: (state) => {
+      state.isLoading = true
+    },
+    [login.rejected]: (state) => {
+      state.isLoading = false
       message.error("Login yoki Parol xato!")
     },
     [loadUser.fulfilled]: (state, action) => {

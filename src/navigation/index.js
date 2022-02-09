@@ -1,19 +1,25 @@
+import {HomeOutlined, MenuUnfoldOutlined, UserSwitchOutlined, SortAscendingOutlined} from '@ant-design/icons'
+
 const menu = [
     {
         name: 'Asosiy',
-        link: '/'
+        link: '/',
+        icon: <HomeOutlined />
     },
     {
         name: 'Kategoryalar',
-        link: '/category'
+        link: '/category',
+        icon: <MenuUnfoldOutlined />
     },
     {
         name: 'Hamkorlar',
-        link: '/partners'
+        link: '/partners',
+        icon: <UserSwitchOutlined />
     },
     {
         name: 'Mahsulotlar',
-        link: '/products'
+        link: '/products',
+        icon: <SortAscendingOutlined />
     }
 ]
 export default menu

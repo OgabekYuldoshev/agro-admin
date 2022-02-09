@@ -1,11 +1,14 @@
-import { Form, Input, Button } from 'antd'
-import { login } from "@store/reducers/Auth"
-import { useDispatch } from "react-redux"
-import { useHistory } from 'react-router-dom'
+import {Form, Input, Button} from 'antd'
+import {login} from "@store/reducers/Auth"
+import {useDispatch, useSelector} from "react-redux"
+import {useHistory} from 'react-router-dom'
 
 export default () => {
     const dispatch = useDispatch()
     const history = useHistory()
+    const selector = useSelector(state => state)
+    const {isLoading} = selector.auth
+
     const onFinish = (values) => {
         dispatch(login(values)).then(() => history.push('/'))
     }
@@ -29,21 +32,21 @@ export default () => {
                     <Form.Item
                         label="Username"
                         name="username"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
+                        rules={[{required: true, message: 'Please input your username!'}]}
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
 
                     <Form.Item
                         label="Password"
                         name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
+                        rules={[{required: true, message: 'Please input your password!'}]}
                     >
-                        <Input.Password />
+                        <Input.Password/>
                     </Form.Item>
 
                     <Form.Item>
-                        <Button htmlType="submit">
+                        <Button htmlType="submit" loading={isLoading}>
                             Submit
                         </Button>
                     </Form.Item>
