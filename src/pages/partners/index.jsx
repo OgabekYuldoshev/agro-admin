@@ -57,13 +57,14 @@ const PartnerPage = () => {
     return (
         <>
             <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold ">Partnerlarni Qo'shish</h1>
+                <h1 className="text-2xl font-bold ">Hamkorlar</h1>
                 <Button onClick={toggle}>
-                    Partner Qo'shish
+                    Hamkor Qo'shish
                 </Button>
                 <AddPartner createPartner={handleCreate} onClose={toggle} open={open} />
             </div>
             <Table
+                loading={store.isLoading}
                 columns={columns}
                 dataSource={store.partners}
             />

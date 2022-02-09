@@ -34,6 +34,7 @@ export const productsSlice = createSlice({
     name: 'products',
     initialState: {
         products: [],
+        isLoading: false,
         total: 0,
         per_page: 0,
         current_page: 0
@@ -44,13 +45,18 @@ export const productsSlice = createSlice({
         // }
     },
     extraReducers: {
+        [getProducts.pending]: (state) => {
+            state.isLoading = true
+        },
         [getProducts.fulfilled]: (state, action) => {
             state.products = action?.payload?.data
+            state.isLoading = false
             state.total = action?.payload?.total
             state.per_page = action?.payload?.per_page
             state.current_page = action?.payload?.current_page
         },
         [getProducts.rejected]: () => {
+            state.isLoading = false
             message.error("Serverda xatolik!")
         },
         [createProduct.fulfilled]: () => {

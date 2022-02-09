@@ -52,10 +52,15 @@ export const categorySlice = createSlice({
         // }
     },
     extraReducers: {
+        [getCategory.pending]: (state) => {
+            state.isLoading = true
+        },
         [getCategory.fulfilled]: (state, action) => {
             state.categories = action?.payload
+            state.isLoading = false
         },
         [getCategory.rejected]: () => {
+            state.isLoading = false
             message.error("Serverda xatolik!")
         },
         [createCategory.rejected]: () => {

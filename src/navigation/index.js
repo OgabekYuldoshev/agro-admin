@@ -1,6 +1,6 @@
 const menu = [
     {
-        name: 'Home',
+        name: 'Asosiy',
         link: '/'
     },
     {
@@ -8,7 +8,7 @@ const menu = [
         link: '/category'
     },
     {
-        name: 'Partnerlar',
+        name: 'Hamkorlar',
         link: '/partners'
     },
     {

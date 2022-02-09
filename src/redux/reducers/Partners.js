@@ -31,7 +31,8 @@ export const updatePartner = createAsyncThunk('app/updatePartner', async ({ id, 
 export const partnerSlice = createSlice({
     name: 'partner',
     initialState: {
-        partners: []
+        partners: [],
+        isLoading: false
     },
     reducers: {
         // handleSearchQuery: (state, action) => {
@@ -39,10 +40,15 @@ export const partnerSlice = createSlice({
         // }
     },
     extraReducers: {
+        [getPartner.pending]: (state) => {
+            state.isLoading = true
+        },
         [getPartner.fulfilled]: (state, action) => {
+            state.isLoading = false
             state.partners = action?.payload
         },
         [getPartner.rejected]: () => {
+            state.isLoading = false
             message.error("Serverda xatolik!")
         },
         [createPartner.fulfilled]: () => {

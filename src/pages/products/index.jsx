@@ -64,6 +64,7 @@ const ProductsPage = () => {
                 <AddProducts open={isModalVisible} onClose={showModal} />
             </div>
             <Table
+                loading={store.isLoading}
                 columns={columns}
                 pagination={{ pageSize: store.per_page, defaultCurrent: store.current_page, onChange: paginateFunction, total: store.total }}
                 dataSource={store.products}

@@ -20,8 +20,6 @@ const ProductsPage = () => {
         dispatch(getCategory())
     }, [])
 
-    console.log(store.categories)
-
     const columns = [
         {
             title: 'Name',
@@ -75,10 +73,7 @@ const ProductsPage = () => {
             </div>
             <Table
                 columns={columns}
-                // expandable={{
-                //     expandedRowRender: () => <p style={{ margin: 0 }}>hello</p>,
-                //     rowExpandable: record => record.sub_categories
-                // }}
+                loading={store.isLoading}
                 dataSource={store.categories}
             />
             {/* <ModalComponents isModalVisible={isModalVisible} handleOk={handleOk} handleCancel={handleCancel} /> */}

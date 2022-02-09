@@ -1,7 +1,7 @@
 #components-layout-demo-fixed-sider .logo {
     height: 32px;
     margin: 16px;
-    background: rgba(0, 0, 0, 0.2);
+    background: red;
 }
 
 .site-layout {
