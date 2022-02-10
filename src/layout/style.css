@@ -8,3 +8,7 @@
     height: 100vh;
     background: #fff;
 }
+
+li {
+    border-radius: 12px;
+}
