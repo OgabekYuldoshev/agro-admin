@@ -6,9 +6,13 @@
 
 .site-layout {
     height: 100vh;
-    background: #fff;
+    /*background: #fff;*/
 }
 
 li {
     border-radius: 12px;
+}
+
+.ant-menu-item-selected{
+    background-color: transparent !important;
 }

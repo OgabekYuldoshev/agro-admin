@@ -1,4 +1,4 @@
-import {HomeOutlined, MenuUnfoldOutlined, UserSwitchOutlined, SortAscendingOutlined} from '@ant-design/icons'
+import {HomeOutlined, MenuUnfoldOutlined, DollarOutlined, UserSwitchOutlined, SortAscendingOutlined} from '@ant-design/icons'
 
 const menu = [
     {
@@ -20,6 +20,11 @@ const menu = [
         name: 'Mahsulotlar',
         link: '/products',
         icon: <SortAscendingOutlined />
+    },
+    {
+        name: 'Pul birliklari',
+        link: '/currencies',
+        icon: <DollarOutlined />
     }
 ]
 export default menu

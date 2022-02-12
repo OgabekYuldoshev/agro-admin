@@ -43,7 +43,7 @@ const DeafultLayout = (props) => {
 
     return (
         <Layout hasSider>
-            <Sider width={burger ? 0 : 250}
+            <Sider className={"bg-slate-700"} width={burger ? 0 : 250}
                    style={{
                        overflow: 'auto',
                        height: '100vh',
@@ -78,12 +78,12 @@ const DeafultLayout = (props) => {
                     <span>{store?.userData?.username}</span>
                 </div>
                 <hr className="mb-3"/>
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} className={"px-2"}>
+                <Menu  mode="inline" defaultSelectedKeys={['4']} className={"px-2 bg-slate-700"}>
                     {
                         menu.map((m, index) => (
-                            <Menu.Item key={index} icon={m.icon} className="border">
-                                <Link to={m.link}>
-                                    <span>{m.name}</span>
+                            <Menu.Item key={index} icon={m.icon} className="border text-white">
+                                <Link to={m.link} className={"hover:text-danger"}>
+                                    <span className={"text-white"}>{m.name}</span>
                                 </Link>
                             </Menu.Item>
                         ))

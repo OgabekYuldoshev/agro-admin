@@ -22,6 +22,11 @@ const routes = [
         exact: true
     },
     {
+        path: '/currencies',
+        component: lazy(() => import('../../pages/currencies')),
+        exact: true
+    },
+    {
         path: '/login',
         component: lazy(() => import('../../pages/login')),
         exact: true,
