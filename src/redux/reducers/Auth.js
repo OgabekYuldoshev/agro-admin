@@ -17,8 +17,7 @@ export const loadUser = createAsyncThunk('app/getProfile', async () => {
     }
   } else {
     return {
-      isAuth: false,
-      user: response.data?.data
+      isAuth: false
     }
   }
 })
@@ -72,6 +71,11 @@ export const authSlice = createSlice({
       state.userData = action?.payload?.user
       state.isAuth = action?.payload?.isAuth
       localStorage.setItem('userData', JSON.stringify(action.payload))
+    },
+    [loadUser.rejected]: (state) => {
+      state.isAuth = false
+      localStorage.removeItem('userData')
+      localStorage.removeItem('Qaccess_Token')
     }
   }
   // extraReducers: builder => {

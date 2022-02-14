@@ -1,20 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Button, Table, Popconfirm, Badge } from 'antd'
-import AddProducts from "./AddProducts"
 import { getProducts, deleteProduct } from "@store/reducers/Products"
 import { useDispatch, useSelector } from "react-redux"
 import {
     EditOutlined,
     DeleteOutlined
 } from '@ant-design/icons'
+import { useHistory } from 'react-router-dom'
 
 const ProductsPage = () => {
-    const [isModalVisible, setIsModalVisible] = useState(false)
+    const history = useHistory()
     const store = useSelector(state => state.products)
     const dispatch = useDispatch()
-    const showModal = () => {
-        setIsModalVisible(!isModalVisible)
-    }
+
     useEffect(() => {
         dispatch(getProducts(1))
     }, [dispatch])
@@ -60,8 +58,7 @@ const ProductsPage = () => {
         <>
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-bold mb-4">Mahsulot yaratish</h1>
-                <Button onClick={showModal}>Yangi mahsulot qo'shish</Button>
-                <AddProducts open={isModalVisible} onClose={showModal} />
+                <Button onClick={() => history.push('/products/new')}>Yangi mahsulot qo'shish</Button>
             </div>
             <Table
                 loading={store.isLoading}

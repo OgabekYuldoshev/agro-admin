@@ -13,11 +13,49 @@ export const getUnitList = createAsyncThunk('app/getUnitList', async () => {
     return response.data?.data
 })
 
+export const getPage = createAsyncThunk('app/getPage', async () => {
+    const response = await http.get('/admin/pages')
+    return response.data?.data
+})
+
+export const createPage = createAsyncThunk('app/createPage', async (data, { dispatch }) => {
+    const response = await http.post('/admin/pages', data, {
+        "Content-Type": "multipart/form-data"
+    })
+    dispatch(getPage())
+    return response.data
+})
+
+export const deletePage = createAsyncThunk('app/deletePage', async (id, { dispatch }) => {
+    await http.delete(`/admin/pages/${id}`)
+    dispatch(getPage())
+})
+
+export const getSlider = createAsyncThunk('app/getSlider', async () => {
+    const response = await http.get('/admin/sliders')
+    return response.data?.data
+})
+
+export const createSlider = createAsyncThunk('app/createSlider', async (data, { dispatch }) => {
+    const response = await http.post('/admin/sliders', data, {
+        "Content-Type": "multipart/form-data"
+    })
+    if (response.status === 201) dispatch(getSlider())
+    return response.data
+})
+
+export const deleteSlider = createAsyncThunk('app/deleteSlider', async (id, { dispatch }) => {
+    const response = await http.delete(`/admin/sliders/${id}`)
+    if (response.status === 200) dispatch(getSlider())
+})
+
 
 export const currenciesSlice = createSlice({
     name: 'units',
     initialState: {
         currencies: [],
+        pages: [],
+        sliders: [],
         unit: [],
         isLoading: false
     },
@@ -38,7 +76,7 @@ export const currenciesSlice = createSlice({
             state.isLoading = false
             message.error("Serverda xatolik!")
         },
-
+        // Utils
         [getUnitList.pending]: (state) => {
             state.isLoading = true
         },
@@ -48,6 +86,55 @@ export const currenciesSlice = createSlice({
         },
         [getUnitList.rejected]: (state) => {
             state.isLoading = false
+            message.error("Serverda xatolik!")
+        },
+        // Pages
+        [getPage.pending]: (state) => {
+            state.isLoading = true
+        },
+        [getPage.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.pages = action?.payload
+        },
+        [getPage.rejected]: () => {
+            state.isLoading = false
+            message.error("Serverda xatolik!")
+        },
+        [createPage.fulfilled]: () => {
+            message.success("Page yaratildi!")
+        },
+        [createPage.rejected]: () => {
+            message.error("Serverda xatolik!")
+        },
+        [deletePage.fulfilled]: () => {
+            message.success("Page o'chirildi!")
+        },
+        [deletePage.rejected]: () => {
+            message.error("Serverda xatolik!")
+        },
+        // Sliders
+
+        [getSlider.pending]: (state) => {
+            state.isLoading = true
+        },
+        [getSlider.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.sliders = action?.payload
+        },
+        [getSlider.rejected]: () => {
+            state.isLoading = false
+            message.error("Serverda xatolik!")
+        },
+        [createSlider.fulfilled]: () => {
+            message.success("Page yaratildi!")
+        },
+        [createSlider.rejected]: () => {
+            message.error("Serverda xatolik!")
+        },
+        [deleteSlider.fulfilled]: () => {
+            message.success("Page o'chirildi!")
+        },
+        [deleteSlider.rejected]: () => {
             message.error("Serverda xatolik!")
         }
     }

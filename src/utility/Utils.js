@@ -1,6 +1,6 @@
 
 import axios from "axios"
-
+export const baseUrl = 'https://guarded-cliffs-29944.herokuapp.com/'
 export const http = axios.create({
   baseURL: 'https://guarded-cliffs-29944.herokuapp.com/api'
 })
@@ -55,7 +55,7 @@ export const formatDateToMonthShort = (value, toTimeForCurrentDay = true) => {
  ** This is completely up to you and how you want to store the token in your frontend application
  *  ? e.g. If you are using cookies to store the application please update this function
  */
-export const isUserLoggedIn = () => localStorage.getItem('userData') && localStorage.getItem('accessToken')
+export const isUserLoggedIn = () => { return localStorage.getItem('userData') && localStorage.getItem('Qaccess_Token') }
 export const getUserData = () => JSON.parse(localStorage.getItem('userData'))
 
 /**
